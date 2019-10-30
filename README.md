@@ -1,4 +1,4 @@
-c/c++_algorithm
+c/c++/java_algorithm
 ====
 算法描述和数据结构
 ---- 
