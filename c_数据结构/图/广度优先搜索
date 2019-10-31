@@ -1,0 +1,22 @@
+#include"树的邻接表/ALGraph.h"
+#include"树的邻接表/ALGraph.cpp"
+void BFSTraverse(ALGraph& G) {
+	///其中用到了一个队列，首尾分别为front、rear;
+	int i, j, w, n = numberOfVertices(G);
+	int visited[maxVertices];
+	for (i = 0; i < n; i++)visited[i] = 0;///访问数组初始化
+	int Q[maxVertices]; int front = 0; int rear = 0;///将队列置空
+	for(i=0;i<n;i++)
+		if (!visited[i]) {
+			printf("->%c", getValue(G, i));
+			visited[i] = 1; Q[rear++] = i;///做访问标记并进队列
+			while (front < rear) {///队列不空时执行
+				j = Q[front++];
+				for(w=firstNeighbor(G,j);w!=-1;w=nextNighbor(G,j,w))
+					if (!visited[w]) {
+						printf("->%c", getValue(G, w));
+						visited[w] = 1; Q[rear++] = w;
+					}
+			}
+		}
+}
