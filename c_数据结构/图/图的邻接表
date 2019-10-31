@@ -1,0 +1,23 @@
+///头文件部分
+#include<stdio.h>
+#include<stdlib.h>
+#define maxVertices 30
+#define maxEdges 450
+typedef char Type;
+typedef int Weight;
+#define impossibleValue '#'
+#define impossibleWeight -1
+typedef struct Enode {
+	int dest;
+	Weight cost;
+	struct Enode* link;
+}EdgeNode;
+typedef struct Vnode {
+	Type data;
+	struct Enode* adj;
+}VertexNode;
+typedef struct {
+	VertexNode VerticesList[maxVertices];
+	int numVertices, numEdges;
+}ALGraph;
+///应用程序部分
