@@ -1,0 +1,19 @@
+#include"MGraph.cpp"
+void DFS_recur(MGraph& G, int v, int visited[]) {
+	///从顶点位置v出发，访问所有为访问的顶点。用到一个辅助数组visited,对已经访问过的顶点标记；
+	printf("->%c", getValue(G, v)); visited[v] = 1;
+	for (int w = firstNeighbor(G,v); w !=-1; w =  nextNeighbor(G,v,w)) {
+		if (!visited[w])
+			DFS_recur(G, w, visited);///未访问，则递归访问w;
+	}
+}
+///深度优先搜索采用了隐式栈的结构，通过递归完成相应的“返回上一层”；
+void DFS_Traversal(MGraph& G, int v) {
+	int i, n = numberOfVertices(G);
+	int visited[maxVertices];
+	for (i = 0; i < n; i++)
+		DFS_recur(G, v, visited);
+	printf("\n");
+}
+
+	
