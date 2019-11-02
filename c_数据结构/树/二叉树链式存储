@@ -1,0 +1,28 @@
+///头文件
+#include<stdio.h>
+#include<stdlib.h>
+typedef char TElemType;
+typedef struct node {
+	TElemType data;
+	struct node* lchild, * rchild;
+}BiTNode,*BinTree;
+///应用程序文件
+#include"BinTree.h"
+#define queSize 64
+void creatSqBTree(BinTree& BT, char a[][3], int n) {
+	int i, j, k = 0; BiTNode* s, * p;
+	BT = (BiTNode*)malloc(sizeof(BiTNode));
+	BT->data = a[0][0]; BT->lchild = BT->rchild = NULL;
+	BinTree Q[queSize]; Q[0] = BT;
+	for (i = 0; i < n; i++)
+		for (j = 0; j <= k; j++)
+			if (a[i][0] == Q[j]->data) {
+				p = (BiTNode*)malloc(sizeof(BiTNode));
+				p->data = a[i][1]; p->lchild = p->rchild = NULL;
+				s = Q[j]; Q[++k] = p;
+				if (a[i][2] == '0')s->lchild = p;
+				else s->rchild = p;
+				break;
+			}
+
+}
