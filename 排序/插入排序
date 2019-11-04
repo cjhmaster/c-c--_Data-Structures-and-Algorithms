@@ -1,0 +1,21 @@
+void Insertsort(int* a, int n)//插入排序
+{
+	for (int i = 0; i < n - 1; i++)
+	{
+		int end = i;
+		int tmp = a[end + 1];
+		while (end >= 0)
+		{
+			if (tmp < a[end])
+			{
+				a[end + 1] = a[end];
+				end--;
+			}
+			else
+			{
+				break;
+			}
+			a[end + 1] = tmp;
+		}
+	}
+}
