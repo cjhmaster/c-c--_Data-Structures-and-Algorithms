@@ -1,0 +1,39 @@
+我们对一个有向图进行构造时，会出现两个结果。
+1.如果此网的全部顶点都被输出，则说明他是不存在环（回路）的AOV网
+2.如果输出的顶点数少了，则说明这个网存在环（回路），不是AOV网
+一个不存在回路的AOV网，我们可以把它用于在各种工程或项目的流程图中，满足各种应用场景的需要，所以实现拓扑排序的算法很有价值
+///所以，拓扑排序应运而生，用来判断是否有环。用到了图的邻接矩阵的应用程序文件。
+Status TopologicalSort(AdjGraphList AG)
+{
+    EdgeNode* e;
+    int i, j,k, gettop;
+    int count = 0;    //用于统计输出顶点个数
+    int top = -1;    //这是我们要创建的栈的指针
+    int *stack = (int*)malloc(sizeof(int)*AG.numVertexes);    //这是我们创建的临时栈
+
+    //最开始将所有入度为0的顶点入栈
+    for (i = 0; i < AG.numVertexes; i++)
+        if (!AG.adjlist[i].in)
+            stack[++top] = i;
+
+    //下面进入主循环，直到栈中无数据结束（全部顶点输出，或者剩余的成环，入度都不为0）
+    while (top!=-1)
+    {
+        //出栈数据
+        gettop = stack[top--];    //出栈
+        printf("%c -> ", AG.adjlist[gettop].data);
+        count++;
+        //对他出栈数据的所有邻接点的入度减一
+        for (e = AG.adjlist[gettop].firstedge; e;e=e->next)
+        {
+            k = e->adjvex;
+            if (!(--AG.adjlist[k].in))
+                stack[++top] = k;
+        }
+    }
+    printf("\n");
+    //进行判断，若是count小于顶点数，则有环
+    if (count < AG.numVertexes)
+        return ERROR;
+    return OK;
+}
