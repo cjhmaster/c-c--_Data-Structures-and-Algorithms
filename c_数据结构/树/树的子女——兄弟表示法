@@ -1,0 +1,12 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define TElemType char
+typedef struct CSNode {
+	TElemType data;
+	struct CSNode* lchild, * rsibling;////左子女——右兄弟，每个结点的度为2
+}CSNode, * CSTree;
+void createCSTree_Degree(CSNode  *& t,TElemType e[], int degree[], int n){
+	///结点的层次序列e[n]和各节点的degree[n]构造的子女——兄弟链表，n为节点数
+
+
+}
