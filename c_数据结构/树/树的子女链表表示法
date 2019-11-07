@@ -1,0 +1,20 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define char TElemType
+#define Tree_Size 100
+#define TElemType int
+#define Tree_Size 100
+//按照先序次序遍历
+typedef struct CTNode {
+	int child;//链表中每个结点存储的不是数据本身，而是数据在数组中存储的位置下标
+	struct CTNode* next;
+}*ChildPtr;
+typedef struct {
+	TElemType data;//结点的数据类型
+	ChildPtr firstchild;//孩子链表的头指针
+}CTBox;
+typedef struct {
+	CTBox nodes[Tree_Size];//存储结点的数组
+	int n, r;//结点数量和树根的位置
+}CTree;
+
