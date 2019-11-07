@@ -1,0 +1,29 @@
+/*在实际中，更多的不是完全符合二叉树的结构，大多只是类似树结构，故采取一些方式表示存储。*/
+/*按树的层次次序排列时，同一个双亲的在同一层次*/
+#include<stdio.h>
+#include<stdlib.h>
+#define maxSize 50
+typedef char TElemType;
+typedef struct PTNode {
+	TElemType data;//树中结点的数据类型
+	int parent;//结点的父结点在数组中的位置下标
+}PTNode;
+typedef struct {
+	PTNode tnode[maxSize];//存放树中所有结点
+	int r, n;//根的位置下标和结点数
+}PTree;
+///
+#include"Ptree.h"
+#define maxSize 50
+void createPTree(PTree& PT, TElemType a[][2], int n) {
+	PT.tnode[0].data = a[0][0]; PT.tnode[0].parent = -1;
+	int i, j, s = 0, t = 0, k = 1;
+	for(i=0;i<n;i++)
+		for(j=s;j<=t;j++)
+			if (PT.tnode[j].data == a[i][0]) {
+				PT.tnode[k].data = a[i][1]; PT.tnode[k].parent = j;
+				if (j != s)s = j;///计算下次检查范围
+				t = k; k++; break;
+			}
+	PT.n = k;
+}
