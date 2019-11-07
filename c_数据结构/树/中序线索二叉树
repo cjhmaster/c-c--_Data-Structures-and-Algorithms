@@ -1,0 +1,58 @@
+///头文件
+#include<stdio.h>
+#include<stdlib.h>
+typedef int TElemType;
+typedef struct ThBinode
+{
+	TElemType data;
+
+	struct ThBinode* lchild, * rchild;///线索或子女指针
+
+	int LTag, RTag;///结点
+
+} ThreadNode;
+typedef ThreadNode* InThBinTree;
+///左子树
+ThreadNode* inFirst(InThBinTree t) {
+	while (t->LTag == 0)t = t->lchild;
+	return t;
+}
+///右子树
+ThreadNode* inFirst(InThBinTree t) {
+	while (t->RTag == 0)t = t->rchild;
+	return t;
+}
+///寻找后继
+ThreadNode* inNext(InThBinTree t) {
+	if (t->RTag == 0)return inFirst(t->rchild);
+	else return t->rchild;
+}
+///中序遍历
+void Inorder(InThBinTree t) {
+	for (ThreadNode* p = inFirst(t);p!= NULL; p = inNext(t))
+		printf("%c", p->data);
+	printf("\n");
+}
+///通过中序遍历二叉树，建立中序线索二叉树
+void InThreaded(ThreadNode* p, ThreadNode*& pre) {
+	if (p != NULL) {
+		InThreaded(p->lchild, pre);
+		if(p->lchild==NULL)
+		{
+			p->lchild = pre; p->LTag = 1;
+		}
+		if (pre != NULL && p->rchild == NULL) {
+			p->rchild = pre; p->RTag = 1;
+		}
+		pre = p;
+		InThreaded(p->lchild, pre);
+	}
+}
+///主过程
+void createInThread(InThBinTree t) {
+	ThreadNode* pre = NULL;
+	if (t != NULL)
+		InThreaded(t, pre);
+	pre->rchild = NULL; pre->RTag = 1;///处理中序最后一个结点
+}
+ 
