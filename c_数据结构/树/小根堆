@@ -1,0 +1,41 @@
+///在许多应用程序中，需要从一个关键码集合中挑选具有最小或者最大关键码的元素进行处理，
+///支持这种处理的数据结构即为优先队列。其中，最高效的一种就是堆
+#include<stdio.h>
+#include<stdlib.h>
+#define heapSize 40
+typedef int HElemType;
+typedef struct {
+	HElemType elem[heapSize];           //小根堆存储数组
+	int curSize;                        //当前元素个数
+}minHeap;
+///数组elem[]是完全二叉树顺序存储，按照性质5：
+///若i=0,则为根节点，否则结点i的双亲为[(i-1)/2]
+///若2i+1>n-1,则结点i无左子女，否则结点i的左子女结点2i+1
+///若2i+2>n-1，则结点i无右子女，否则结点i的右子女结点2i+2
+
+///程序文件
+#include"minHeap.h"
+///自底向上调整为小根堆
+void siftup(minHeap& H, int start) {
+	///从结点start一直到结点0为止
+	HElemType temp = H.elem[start]; int j = start, i = (j - 1) / 2;
+	while (j > 0) {
+		if (H.elem[i] <= temp)break;
+		else
+		{
+			H.elem[j] = H.elem[i];
+			j = i;
+			i = (i - 1) / 2;
+		}
+
+	}
+	H.elem[j] = temp;           ///回送
+}
+void creatMinHeap(minHeap& H, HElemType arr[], int n) {
+	int i;
+	for (i = 0; i < n; i++)H.elem[i] = arr[i];
+	H.curSize = n;
+	for (i = (H.curSize - 2) / 2; i >= 0; i--) {
+		siftup(H, i);
+	}
+}
