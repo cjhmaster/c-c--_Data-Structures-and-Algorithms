@@ -1,0 +1,49 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define leafNumber 20          ///默认权值集合大小
+#define totalnumber 39         ///树的结点个数=2*leafnumber-1
+typedef struct {
+	char data;
+	int weight;
+	int parent, lchild, rchild;
+}HTNode;
+typedef struct {
+	HTNode elem[totalnumber];
+	int num, root;            ///num是外结点数，root是根
+}HFTree;
+///应用程序文件
+#include"Huffman.h"
+#define maxWeight 32767
+void creatHFTree(HFTree& HT, char value[], int fr[], int n) {
+	///输入数据value[n]和相应权值fr[n],n是结点树、数。
+	int i, k, s1, s2; int min1, min2;
+	for (i = 0; i < n; i++)
+	{
+		HT.elem[i].data = value[i];
+		HT.elem[i].weight = fr[i];
+	}
+	for (i = 0; i < leafNumber; i++) {
+		HT.elem[i].parent = HT.elem[i].lchild = HT.elem[i].rchild = -1;///初始化
+	}
+	for (i = 0; i < 2 * n - 1; i++) {
+		min1 = min2 = maxWeight;///最小权值和次小权值
+		s1 = s2 = 0;            ///最小权值点和次小权值点；
+		for(k=0;k<i;k++)
+			if(HT.elem[k].parent==-1)
+			if (HT.elem[k].weight < min1) {
+				min2 = min1;
+				s2 = s1;
+				min1 = HT.elem[i].weight;
+				s1 = k;
+			}
+			else if (HT.elem[i].weight < min2) {
+				min2 = HT.elem[i].weight;
+				s2 = k;
+			}
+		HT.elem[s1].parent = HT.elem[s2].parent = i;
+		HT.elem[i].lchild = s1; HT.elem[i].rchild = s2;
+		HT.elem[i].weight = HT.elem[s1].weight + HT.elem[s2].weight;
+
+	}
+	HT.num = n; HT.root = 2 * n - 1;
+}
