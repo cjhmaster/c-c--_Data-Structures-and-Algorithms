@@ -1,0 +1,35 @@
+#include"图的邻接表/ALGraph.cpp"
+#define maxsize 20
+bool TopologicalSort(ALGraph& G, int topoArry[], int& k)
+{
+	int i, j, w;
+	EdgeNode* p;
+	int S[maxsize];    //入度为零的顶点的栈初始化
+	int top = -1;   
+	int n = G.numVertices;
+	int* ind = (int *)malloc(n*sizeof(int));///创建入度数组
+	for (i = 0; i < n; i++)
+		ind[i] = 0;///将各个数据为0
+	for (i = 0; i < n; i++)
+		for (p = G.VerticesList[i].adj; p != NULL; p++)
+			ind[p->dest]++;///计算个入度大小，并存储
+	for (i = 0; i < n; i++)
+		if (!ind[i]) S[++top] = i;
+	k = 0;
+	for (i = 0; i < n; i++)
+		if (top > -1) {
+			j = S[top--];
+			topoArry[k++] = j;///保存弹出的顶点
+			for (p = G.VerticesList[i].adj; p != NULL; p = p->link) {
+				w = p->dest;
+				if (--ind[w] == 0) S[++top] = w;///入度减一，并且将入度为零的顶点进栈
+
+			}
+		}
+		else {
+			printf("图中包含有向环！ \n");
+			return false;
+		     }
+	return true;
+}
+
